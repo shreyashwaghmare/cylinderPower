@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Geometry</title>
+
+    <style>
+
+        #main{
+           
+            height: 100%;
+            width: 100%;
+            margin-top: 50px;
+            
+        }
+        #container{
+            display: flex;
+            flex-direction: column;
+            float: left;
+           
+          
+            }
+        #left{
+            display: flex;
+          position: relative;
+          left: 100px;
+        }
+            
+        
+       
+        .btn{
+            background-color: brown;
+            padding: 5px;
+            margin: 5px;
+            font-weight: bold;
+        }
+        p{
+            background-color: chartreuse;
+            width: 200px;
+            height: 50px;
+            text-align: center;
+            font-weight: bolder;
+            padding: 4px;
+            align-content: center;
+            border: 3px solid black;
+        }
+    </style>
+</head>
+<body>
+    <div id = "main">
+        <div id="container">
+            
+            Enter Height:<input id="prr1" type="text" >
+            Enter Radius:<input  id="prr2"  type="text" >
+            <button class="btn" id="btn1" value="Volume" onclick="volume()">Calculate Volume</button>
+            <button class="btn" id="btn2" value="area" onclick="area()">Calculate Surface Area</button>
+            <p id="disp"></p>
+           
+        </div>
+        <div id = "left">
+            
+            <img id="img"src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Cylinder.svg/1200px-Cylinder.svg.png" height="250px" width="150px">
+           
+        </div>
+
+    </div>
+
+    <div id = "main1" style="margin: 20px;">
+        <div id="container1" style="display: flex; flex-direction: column; float: left;">
+            
+            
+            Enter Voltage(V):<input id="prr11" type="text" >
+            Enter Current(I):<input  id="prr22"  type="text" >
+            <button class="btn" id="btn11" value="Volume" onclick="Power()">Calculate Power(@)</button>
+            <p id="disp2" style="text-align: center; font-weight:bold ;"></p>
+           
+        </div>
+        <div id = "left2">
+            
+            <img style="position: relative;left: 50px;" id="img2"src="data:image/png;base64,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" height="250px" width="150px">
+            
+        </div>
+        
+    </div>
+    <script>
+        
+        
+        function volume(){
+            var h = document.getElementById("prr1").value;
+        var r= document.getElementById("prr2").value;
+        var a = parseInt(h);
+        var b = parseInt(r)
+            var vol =  Math.PI* (a*  b * b);
+          
+            document.getElementById("disp").innerHTML = vol +"-Cu-mtrs" ;
+        }
+
+        function area(){
+
+            var c =  document.getElementById("prr1").value;
+            var d = document.getElementById("prr2").value;
+            var e = parseInt(c);
+            var f = parseInt(d);
+            var area= Math.PI *(2*e*f);
+            document.getElementById("disp").innerHTML= area+"Sq-mtrs";
+
+        }
+
+        function Power(){
+            var f = document.getElementById("prr11").value;
+            var g= document.getElementById("prr22").value;
+            var v = parseInt(f);
+            var i = parseInt(g)
+
+            var p = v*i;
+            document.getElementById("disp2").innerHTML = p;
+        }
+        
+    </script>
+    
+</body>
+</html>
